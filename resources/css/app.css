@@ -1,0 +1,29 @@
+.intro-pic{
+    width: 100%;
+    height:fit-content;
+    margin-top: 6px;
+    background-image: url("/img/1.jpg");
+    height: 600px;
+    background-size: cover;
+    
+}
+
+.book-pic{
+    width: 100%;
+    height:fit-content;
+    margin-top: 6px;
+    background-image: url("/img/2.jpg");
+    height: 400px;
+    background-size: cover; 
+}
+
+.fixed{
+    position: fixed;
+    top: 0;
+    z-index: 20;
+}
+
+.test{
+    text-transform: uppercase;
+  color: #4CAF50;
+}
