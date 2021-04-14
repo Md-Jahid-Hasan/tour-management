@@ -60,7 +60,7 @@ Route::get('/hotel/details/room/{room}', [HotelController::class, 'room_details'
 
 Route::get('/hotel/booking', [RoomBooking::class, 'index'])->name('hotel.booking');
 Route::post('/hotel/booking', [RoomBooking::class, 'store']);
-Route::delete('hotel/booking', [RoomBooking::class, 'destroy']);
+Route::delete('room/{room}/delete', [RoomBooking::class, 'destroy_room_number'])->name('room.delete');
 
 Route::post('hotel/book/{room}', [RoomBooking::class, 'book_hotel'])->name('guest.book');
 Route::get('hotel/book/{room}', [RoomBooking::class, 'book_hotel'])->name('guest.book');

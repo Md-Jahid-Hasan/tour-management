@@ -12,7 +12,7 @@ class RoomBooking extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'hotel_owner']);
     }
 
     public function index(){
@@ -42,9 +42,10 @@ class RoomBooking extends Controller
         return redirect()->route('hotel.booking');
     }
 
-    public function destroy(){
-        dd('working');
-        return redirect()->route('hotel.booking');
+    public function destroy_room_number(RoomNumber $room){
+        //dd($room);
+        $room->delete();
+        return back();
     }
 
     public function book_hotel(Request $request,Room $room){

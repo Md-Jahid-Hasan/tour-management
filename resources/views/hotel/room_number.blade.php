@@ -52,15 +52,16 @@
       </td>
 
       <td>
-        <form>
-           <button type="button" class="btn btn-warning">Remove Guest</button>
+        <form action="#" method="post">
+           <button type="submit" class="btn btn-warning">Remove Guest</button>
         </form>
       </td>
 
       <td>
-        <form action="route('hotel.booking')" method="post">
+        <form action="{{ route('room.delete', $room_number) }}" method="post">
           @csrf
-           <button type="button" class="btn btn-danger">Click</button>
+          @method('DELETE')
+           <button type="submit" class="btn btn-danger">Click</button>
         </form>
       </td>
     </tr>

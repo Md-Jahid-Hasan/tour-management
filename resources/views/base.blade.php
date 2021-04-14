@@ -39,7 +39,17 @@
                                     Service
                                 </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="{{ route('hotel.list') }}">Hotel</a></li>
+                                @auth
+                                    @if (auth()->user()->hotel()->count() == 1)
+                                        <li><a class="dropdown-item" href="{{ route('hotel.booking') }}">Hotel</a></li>
+                                    @else
+                                        <li><a class="dropdown-item" href="{{ route('hotel.list') }}">Hotel</a></li>
+                                    @endif
+                                @endauth
+
+                                @guest
+                                    <li><a class="dropdown-item" href="{{ route('hotel.list') }}">Hotel</a></li>
+                                @endguest
                                 <li><a class="dropdown-item" href="#">Shop</a></li>
                                 <li><a class="dropdown-item" href="#">Package</a></li>
                             </ul>
@@ -63,7 +73,7 @@
                             <a class="nav-link" href="{{route('login')}}" tabindex="-1">Login</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#" tabindex="-1">Registration</a>
+                            <a class="nav-link" href="{{route('register')}}" tabindex="-1">Registration</a>
                         </li>
                         @endguest
                     </ul>

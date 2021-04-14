@@ -12,6 +12,11 @@ use Illuminate\Support\Facades\Redirect;
 
 class HotelController extends Controller
 {
+    public function __construct()
+    {
+        //$this->middleware('auth')->only(['list_hotel']);
+    }
+
     public function index()
     {
         $place = Place::all();
@@ -41,13 +46,6 @@ class HotelController extends Controller
     }
 
     public function list_hotel(){
-        $request = Request();
-        $user = $request->user();
-        
-        if($user <> null && $user->hotel()->count() == 1){
-            return redirect()->route('hotel.booking');
-        }
-
         $hotel = Hotel::all();
         return view('hotel.hotel_list', [
             'hotel' => $hotel
