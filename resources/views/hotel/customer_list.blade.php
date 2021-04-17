@@ -9,7 +9,6 @@
       <th scope="col">Phone</th>
       <th scope="col">Check In</th>
       <th scope="col">Check Out</th>
-      <th scope="col">Rooms</th>
       <th scope="col">Add</th>
     </tr>
   </thead>
@@ -23,12 +22,12 @@
       <td>{{$customer->check_out}}</td>
       <form action="{{ route('customer.room.add') }}" method="post">
       @csrf
-      <td><input class="form-control" type="hidden" name="customer" value="{{$customer->id}}">
-        <input type="hidden" name="room_id" value="{{$room_number->id}}">
-      </td>
+      <input class="form-control" type="hidden" name="customer" value="{{$customer->id}}">
+        <input type="hidden" name="room_number_id" value="{{$room_number->id}}">
+      
       
       <td>
-           <button type="submit" class="btn btn-warning">Remove Guest</button>
+           <button type="submit" class="btn btn-warning">Provide Room</button>
         </td>
         </form>
 

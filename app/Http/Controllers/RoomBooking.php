@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Room;
 use App\Models\Guest;
 use App\Models\Customer;
@@ -12,7 +13,8 @@ class RoomBooking extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth', 'hotel_owner']);
+        $this->middleware(['auth']);
+        $this->middleware(['hotel_owner'])->except(['book_hotel', 'place_order']);
     }
 
     public function index(){
@@ -53,10 +55,11 @@ class RoomBooking extends Controller
             'in' => 'required',
             'out' => 'required',
         ]);
-     
+
         $room_number = $room->room_number()
-                            ->where('check_out', '<', $request->in)
-                            ->orWhere('check_out', null)->count();
+                            ->where('check_out', null)
+                            ->orwhere('check_out', '<=', $request->in)->count();
+
         if($room_number <= 0){
             return back()->with('status', 'No Room Available');
         }
@@ -75,8 +78,6 @@ class RoomBooking extends Controller
             'name' => 'required',
             'number' => 'required'
         ]);
-
-        //dd($request->user()->id);
 
         $customer = $room->customer()->create([
             'name' => $request->name,
@@ -105,14 +106,17 @@ class RoomBooking extends Controller
     }
 
     public function customer_list(RoomNumber $room_number){
+        $date = new Carbon;
+        //dd($date);
+        if($room_number->check_out >= $date){
+            return back()->with('status', 'You cant add Guest righ now');
+        }
         $room = $room_number->room()->get();
-        
         $customer = Guest::where('room_given', false)
         ->where('room_id', $room[0]->id)                    
         ->get();
         
-        //$rooms = Guest::rooms()->get();->with('rooms')
-        //dd($customer);
+  
         return view('hotel.customer_list', [
             'customer' => $customer,
             'room_number' => $room_number
@@ -120,13 +124,29 @@ class RoomBooking extends Controller
     }
 
     public function room_provide_byadmin(Request $request){
-            //dd($request->customer, $request->room_id);
-            $customer = $request->customer;
+           
+            $customer = Guest::where('id', $request->customer);
+            $room = RoomNumber::where('id', $request->room_number_id);
+
             
-            $customer = Guest::where('id', $customer)->update(['room_number_id'=>$request->room_id, 'room_given'=>true]);
-            //dd($customer);
-            $customer->update(['room_number_id'=>$request->room_id->id]);
-        return redirect()->route('index');
+            $customer->update(['room_number_id'=>$request->room_number_id, 'room_given'=>true]);
+            
+            $room->update([
+                'check_in'=>$customer->first()->check_in,
+                'check_out'=>$customer->first()->check_out,]);
+        return redirect()->route('hotel.booking');
+    }
+
+    public function removeGuest(RoomNumber $room_number){
+        if($room_number->check_in == null)
+            return back();
+        //dd($room_number);
+        $room_number->update([
+            'check_in' => null,
+            'check_out' => null
+        ]);
+        return back();
+        
     }
 
 }

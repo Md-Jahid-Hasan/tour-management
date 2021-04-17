@@ -67,11 +67,13 @@ Route::get('hotel/book/{room}', [RoomBooking::class, 'book_hotel'])->name('guest
 
 Route::post('/hotel/search', [RoomBooking::class, 'search_hotel'])->name('hotel.search');
 
-Route::get('/hotel/confirm/{room}', [RoomBooking::class, 'place_order'])->name('confirm.book');
+//Route::get('/hotel/confirm/{room}', [RoomBooking::class, 'place_order'])->name('confirm.book');
 Route::post('/hotel/confirm/{room}', [RoomBooking::class, 'place_order'])->name('confirm.book');
 
 Route::get('/hotel/room/guest/look/{room_number}', [RoomBooking::class, 'customer_list'])->name('customer.room');
 Route::post('/hotel/room/guest/add/', [RoomBooking::class, 'room_provide_byadmin'])->name('customer.room.add');
+Route::post('/hotel/room/guest/remove/{room_number}', [RoomBooking::class, 'removeGuest'])->name('customer.room.remove');
+
 
 
 

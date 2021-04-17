@@ -34,20 +34,15 @@
             @if (session('status'))
             <h1>{{session('status')}}</h1>
             @else
-            <form action="{{route('guest.book', $room)}}" method="post">
+            <form action="{{ route('guest.book', $room) }}" method="post">
                 @csrf
                 <x-search_hotel />
-                
             </form>
             @endif
             </div>
             </div>
         </div>
     </div>
-
-
-
-
 
 
 

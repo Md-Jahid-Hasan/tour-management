@@ -52,8 +52,9 @@
       </td>
 
       <td>
-        <form action="#" method="post">
-           <button type="submit" class="btn btn-warning">Remove Guest</button>
+        <form action="{{ route('customer.room.remove', $room_number)}}" method="post">
+        @csrf
+           <button type="submit" class="btn btn-warning" @if($room_number->check_in==null) disabled @endif>Remove Guest</button>
         </form>
       </td>
 
@@ -69,4 +70,29 @@
     @endforeach
   </tbody>
 </table>
+
+<div class="modal fade" id="modal" aria-hidden="true" aria-labelledby="..." tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+          @if (session('status'))
+            <h2>{{session('status')}}</h2>
+          @endif
+      <div class="modal-footer">
+        <!-- Toogle to second dialog -->
+        <button class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+@endsection
+
+@section('java-script')
+<script>
+    let message = "{{session('status')}}";
+    let myModal = new bootstrap.Modal(document.getElementById('modal'))
+    if(message){
+          console.log(message);
+          myModal.show()
+        }
+</script>
 @endsection

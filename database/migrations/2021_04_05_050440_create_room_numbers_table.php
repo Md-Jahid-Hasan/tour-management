@@ -17,8 +17,8 @@ class CreateRoomNumbersTable extends Migration
             $table->id();
             $table->foreignId('room_id')->constrained()->onDelete('cascade');
             $table->string('number');
-            $table->dateTime('check_in')->nullable()->default(null);
-            $table->dateTime('check_out')->nullable()->default(null);
+            $table->date('check_in')->nullable()->default(null);
+            $table->date('check_out')->nullable()->default(null);
             $table->timestamps();
         });
     }
