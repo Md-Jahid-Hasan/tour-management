@@ -52,6 +52,7 @@
                                 @endguest
                                 <li><a class="dropdown-item" href="#">Shop</a></li>
                                 <li><a class="dropdown-item" href="#">Package</a></li>
+                                <li><a class="dropdown-item" href="{{route('hotel')}}">Register New Hotel</a></li>
                             </ul>
                         </li>
                         <li class="nav-item">

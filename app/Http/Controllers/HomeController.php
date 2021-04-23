@@ -16,6 +16,7 @@ class HomeController extends Controller
         $activites = Activites::take(4)->get();
         $packages = Package::take(3)->where('start_date', '>', Carbon::now()->toDateString())->get();
         $article = Article::take(5)->get();
+        
         return view('welcome', [
             'places' => $places,
             'activites' => $activites,

@@ -14,7 +14,8 @@ class HotelController extends Controller
 {
     public function __construct()
     {
-        //$this->middleware('auth')->only(['list_hotel']);
+        $this->middleware('auth')->only(['store', 'index']);
+        $this->middleware(['hotel_owner'])->only(['hotel_room_add_form', 'hotel_room_add']);
     }
 
     public function index()
@@ -42,7 +43,7 @@ class HotelController extends Controller
             'rating' => 0
         ]);
 
-        return redirect()->route('home');
+        return redirect()->route('hotel.booking');
     }
 
     public function list_hotel(){
@@ -56,6 +57,9 @@ class HotelController extends Controller
        
         $room = $hotel->rooms()->get();
         $tag =Tag::all();
+        $tag = Tag::whereHas('room', function($q) use($hotel){
+            $q->where('hotel_id', $hotel->id);
+        })->get();
         return view('hotel.hotel_room', [
             'room' => $room,
             'tags' => $tag
@@ -63,7 +67,7 @@ class HotelController extends Controller
     }
 
     public function hotel_room_byname(Request $request, Hotel $hotel){
-
+        
         if($request->name <> 0){
             $room = Room::whereHas('tags', function($q) use($request){
                 $q->where('tag_id', $request->name);
@@ -73,6 +77,10 @@ class HotelController extends Controller
             $room = $hotel->rooms()->get();
          }
         $tag =Tag::all();
+        $tag = Tag::whereHas('room', function($q) use($hotel){
+            $q->where('hotel_id', $hotel->id);
+        })->get();
+        // dd($t);
         return view('hotel.hotel_room', [
             'room' => $room,
             'tags' => $tag

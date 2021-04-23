@@ -1,7 +1,10 @@
 @extends('base')
 
 @section('content')
-<x-search_hotel />
+<form action=" {{ route('hotel.search') }}" method='post'>
+    @csrf
+    <x-search_hotel/>
+</form>
 
 @if($room->count())
     <div class="row row-cols-1 row-cols-md-3 g-4">
